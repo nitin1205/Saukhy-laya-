@@ -1,0 +1,42 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "npm install && npx tsc",
+    "start": "node ./dist/index.js",
+    "e2e": "cross-env DOTENV_CONFIG=.env.e2e nodemon src/index.ts"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.15.1",
+    "pino": "^9.7.0",
+    "pino-pretty": "^7.0.0",
+    "zod": "^3.25.56"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/lodash": "^4.17.17",
+    "@types/node": "^22.15.30",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
