@@ -13,6 +13,9 @@ const envSchema = object({
   accessTokenTtl: coerce.number().default(14400),
   refreshTokenTtl: coerce.number().default(86400),
   NODE_ENV: coerce.string(),
+  CLOUDINARY_CLOUD_NAME: coerce.string(),
+  CLOUDINARY_API_KEY: coerce.string(),
+  CLOUDINARY_API_SECRET: coerce.string(),
 });
 
 const env = envSchema.parse(process.env);

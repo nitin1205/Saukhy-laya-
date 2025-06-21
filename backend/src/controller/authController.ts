@@ -1,17 +1,17 @@
 import { Request, Response, RequestHandler } from "express";
 
-import { validatePassword } from "../service/userService";
+import { validatePasswordService } from "../service/authService";
 import { LoginUserInput } from "../schema/userSchema";
 import env from "../utils/env.utils";
 import { signJwt } from "../utils/jwtUtilities";
 import logger from "../utils/logger";
 
-export const userLogin: RequestHandler = async (
+export const userLoginHandler: RequestHandler = async (
   req: Request<{}, {}, LoginUserInput>,
   res: Response
 ): Promise<void> => {
   try {
-    const user = await validatePassword(req.body);
+    const user = await validatePasswordService(req.body);
 
     if (!user) {
       res.status(401).json({ message: "Invalid email or password" });
@@ -46,12 +46,18 @@ export const userLogin: RequestHandler = async (
   }
 };
 
-export const validateToken: RequestHandler = (req: Request, res: Response) => {
+export const validateTokenHandler: RequestHandler = (
+  req: Request,
+  res: Response
+) => {
   res.status(200).json({ userId: req.userId });
   return;
 };
 
-export const logoutUser: RequestHandler = (req: Request, res: Response) => {
+export const logoutUserHandler: RequestHandler = (
+  req: Request,
+  res: Response
+) => {
   try {
     res.cookie("accessToken", "", {
       expires: new Date(0),

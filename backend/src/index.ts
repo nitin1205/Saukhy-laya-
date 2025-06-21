@@ -10,6 +10,7 @@ import connectDB from "./utils/dbConnection";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/auth";
 import deserializeUser from "./middlewares/deserializeUser";
+import { cloudinaryConfig } from "./utils/cloudinaryUtils";
 
 const app = expess();
 
@@ -22,6 +23,7 @@ app.use(
 
 app.use(expess.static(path.join(__dirname, "../../frontend/dist")));
 
+cloudinaryConfig();
 app.use(cookieParser());
 app.use(bodyParser.json({}));
 

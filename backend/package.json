@@ -15,6 +15,7 @@
     "@types/cookie-parser": "^1.4.9",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
+    "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -24,6 +25,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^6.17.0",
     "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
     "pino": "^9.7.0",
     "pino-pretty": "^7.0.0",
     "zod": "^3.25.56"
@@ -34,6 +36,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.17",
+    "@types/multer": "^1.4.13",
     "@types/node": "^22.15.30",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",

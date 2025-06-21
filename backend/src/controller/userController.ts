@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 
-import { LoginUserInput, RegisterUserInput } from "../schema/userSchema";
-import { registerUser, validatePassword } from "../service/userService";
+import { RegisterUserInput } from "../schema/userSchema";
+import { registerUserService } from "../service/userService";
 import logger from "../utils/logger";
 import env from "../utils/env.utils";
 import { signJwt } from "../utils/jwtUtilities";
@@ -11,7 +11,7 @@ export const registerUserHandler: RequestHandler = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = await registerUser(req.body);
+    const user = await registerUserService(req.body);
     if (user._id) {
       const accessToken = signJwt(
         { userId: user._id },

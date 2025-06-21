@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { verifyJwt } from "../utils/jwtUtilities";
 import { JwtPayload } from "jsonwebtoken";
-import { reIssueAccessToken } from "../service/userService";
+import { reIssueAccessTokenService } from "../service/authService";
 import env from "../utils/env.utils";
 import logger from "../utils/logger";
 
@@ -32,7 +32,7 @@ const deserializeUser = async (
 
   if (expired && refreshToken) {
     try {
-      const newAccessToken = await reIssueAccessToken({ refreshToken });
+      const newAccessToken = await reIssueAccessTokenService({ refreshToken });
 
       if (newAccessToken) {
         res.cookie("accessToken", newAccessToken, {
