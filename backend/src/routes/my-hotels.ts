@@ -13,3 +13,5 @@ const upload = multer({
 const router = Router();
 
 router.post("/", verifyUser, upload.array("imageFiles", 6), createHotelHandler);
+
+export default router;

@@ -9,6 +9,7 @@ import logger from "./utils/logger";
 import connectDB from "./utils/dbConnection";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/auth";
+import myHotelsRoutes from "./routes/my-hotels";
 import deserializeUser from "./middlewares/deserializeUser";
 import { cloudinaryConfig } from "./utils/cloudinaryUtils";
 
@@ -49,6 +50,7 @@ app.get("/api/test", async (req: Request, res: Response) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/my-hotels", myHotelsRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   logger.error(err.stack);

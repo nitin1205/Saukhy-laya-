@@ -21,10 +21,31 @@ export const createHotelSchema = z.object({
         ? "Description is required."
         : "Invalid Description.",
   }),
-  type: z.string({
-    error: (iss) =>
-      iss.input === undefined ? "Type is required." : "Invalid Type.",
-  }),
+  type: z.enum(
+    [
+      "Budget",
+      "Boutique",
+      "Luxury",
+      "Ski Resort",
+      "Business",
+      "Family",
+      "Romantic",
+      "Hiking Resort",
+      "Cabin",
+      "Beach Resort",
+      "Golf Resort",
+      "Motel",
+      "All Inclusive",
+      "Pet Friendly",
+      "Self Catering",
+    ],
+    {
+      error: (iss) =>
+        iss.input === undefined
+          ? "Hotel type is required."
+          : "Invalid Hotel type.",
+    }
+  ),
   adultCount: z.number({
     error: (iss) =>
       iss.input === undefined
@@ -37,12 +58,24 @@ export const createHotelSchema = z.object({
         ? "ChildCount is required."
         : "Invalid ChildCount.",
   }),
-  facilities: z.array(z.string(), {
-    error: (iss) =>
-      iss.input === undefined
-        ? "Facilities are required."
-        : "Invalid Facilities.",
-  }),
+  facilities: z.array(
+    z.enum([
+      "Free WiFi",
+      "Parking",
+      "Airport Shuttle",
+      "Family Rooms",
+      "Non-Smoking Rooms",
+      "Outdoor Pool",
+      "Spa",
+      "Fitness Center",
+    ]),
+    {
+      error: (iss) =>
+        iss.input === undefined
+          ? "Facilities are required."
+          : "Invalid Facilities.",
+    }
+  ),
   pricePerNight: z.number({
     error: (iss) =>
       iss.input === undefined

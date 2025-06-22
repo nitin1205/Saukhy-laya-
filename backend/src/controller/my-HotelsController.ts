@@ -1,9 +1,8 @@
 import { Request, RequestHandler, Response } from "express";
-import cloudinary from "cloudinary";
 import { ObjectId } from "mongoose";
 
 import logger from "../utils/logger";
-import HotelModel, { HotelDocument } from "../models/hotelModel";
+import { HotelDocument } from "../models/hotelModel";
 import { CreateHotelInput } from "../schema/hotelSchema";
 import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
 import { createHotelService } from "../service/my-hotelService";
@@ -26,6 +25,7 @@ export const createHotelHandler: RequestHandler = async (
     const hotel = await createHotelService(newHotel);
 
     res.status(201).json({ hotel });
+    return;
   } catch (error) {
     logger.error("Error ctreating hotel:", error);
     res.status(500).json({
