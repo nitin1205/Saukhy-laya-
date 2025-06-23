@@ -19,7 +19,9 @@ const HotelDetailsSection = () => {
           {...register("name", { required: "This field is required" })}
         />
         {errors.name && (
-          <span className="text-red-500">{errors.name.message}</span>
+          <span className="text-red-500 text-sm font-bold">
+            {errors.name.message}
+          </span>
         )}
       </label>
 
@@ -33,7 +35,9 @@ const HotelDetailsSection = () => {
             {...register("city", { required: "This field is required" })}
           />
           {errors.city && (
-            <span className="text-red-500">{errors.city.message}</span>
+            <span className="text-red-500 text-sm font-bold">
+              {errors.city.message}
+            </span>
           )}
         </label>
 
@@ -46,7 +50,9 @@ const HotelDetailsSection = () => {
             {...register("country", { required: "This field is required" })}
           />
           {errors.country && (
-            <span className="text-red-500">{errors.country.message}</span>
+            <span className="text-red-500 text-sm font-bold">
+              {errors.country.message}
+            </span>
           )}
         </label>
       </div>
@@ -60,7 +66,9 @@ const HotelDetailsSection = () => {
           {...register("description", { required: "This field is required" })}
         />
         {errors.description && (
-          <span className="text-red-500">{errors.description.message}</span>
+          <span className="text-red-500 text-sm font-bold">
+            {errors.description.message}
+          </span>
         )}
       </label>
 
@@ -68,7 +76,7 @@ const HotelDetailsSection = () => {
         htmlFor="pricePerNight"
         className="text-gray-700 font-bold flex-1 max-w-[50%]"
       >
-        price Per Night
+        Price Per Night
         <input
           type="number"
           min={1}
@@ -77,7 +85,9 @@ const HotelDetailsSection = () => {
           {...register("pricePerNight", { required: "This field is required" })}
         />
         {errors.pricePerNight && (
-          <span className="text-red-500">{errors.pricePerNight.message}</span>
+          <span className="text-red-500 text-sm font-bold">
+            {errors.pricePerNight.message}
+          </span>
         )}
       </label>
 
@@ -100,7 +110,9 @@ const HotelDetailsSection = () => {
           ))}
         </select>
         {errors.starRating && (
-          <span className="text-red-500">{errors.starRating.message}</span>
+          <span className="text-red-500 text-sm font-bold">
+            {errors.starRating.message}
+          </span>
         )}
       </label>
     </div>
