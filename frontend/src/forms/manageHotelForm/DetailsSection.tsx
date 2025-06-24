@@ -95,6 +95,7 @@ const HotelDetailsSection = () => {
         htmlFor="starRating"
         className="text-gray-700 font-bold flex-1 max-w-[50%]"
       >
+        Star Rating
         <select
           {...register("starRating", { required: "This field is required" })}
           id="starRating"
