@@ -5,7 +5,10 @@ import logger from "../utils/logger";
 import { HotelDocument } from "../models/hotelModel";
 import { CreateHotelInput } from "../schema/hotelSchema";
 import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
-import { createHotelService } from "../service/my-hotelService";
+import {
+  createHotelService,
+  getMyHotelsService,
+} from "../service/my-hotelService";
 
 export const createHotelHandler: RequestHandler = async (
   req: Request<{}, {}, CreateHotelInput>,
@@ -28,6 +31,24 @@ export const createHotelHandler: RequestHandler = async (
     return;
   } catch (error) {
     logger.error("Error ctreating hotel:", error);
+    res.status(500).json({
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    });
+    return;
+  }
+};
+
+export const getMyHotelController: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const hotels = await getMyHotelsService(req?.userId);
+    res.json({ hotels });
+    return;
+  } catch (error) {
+    logger.error("Error getting hotels:", error);
     res.status(500).json({
       message:
         error instanceof Error ? error.message : "An unexpected error occurred",
