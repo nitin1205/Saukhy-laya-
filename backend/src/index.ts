@@ -1,4 +1,4 @@
-import expess, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -13,7 +13,7 @@ import myHotelsRoutes from "./routes/my-hotels";
 import deserializeUser from "./middlewares/deserializeUser";
 import { cloudinaryConfig } from "./utils/cloudinaryUtils";
 
-const app = expess();
+const app = express();
 
 app.use(
   cors({
@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-app.use(expess.static(path.join(__dirname, "../../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 cloudinaryConfig();
 app.use(cookieParser());
@@ -39,8 +39,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   next();
   return;
 });
-
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(deserializeUser);
 
 app.get("/api/test", async (req: Request, res: Response) => {

@@ -19,3 +19,15 @@ export async function getMyHotelsService(userId: string) {
     throw new Error(error);
   }
 }
+
+export async function getMyHotelByIdService(hotelId: string, userId: string) {
+  try {
+    const hotel = await HotelModel.findOne({
+      _id: hotelId,
+      userId,
+    });
+    return hotel;
+  } catch (error) {
+    throw new Error(error);
+  }
+}

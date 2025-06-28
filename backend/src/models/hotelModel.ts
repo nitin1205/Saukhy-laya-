@@ -1,22 +1,5 @@
 import { model, ObjectId, Schema } from "mongoose";
-
-export type HotelType = {
-  _id: ObjectId;
-  userId: ObjectId;
-  name: string;
-  city: string;
-  country: string;
-  description: string;
-  type: string;
-  adultCount: number;
-  childCount: number;
-  facilities: string[];
-  pricePerNight: number;
-  starRating: number;
-  imageUrls: string[];
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { HotelType } from "../shared/types";
 
 export type HotelDocument = Omit<HotelType, "_id" | "createdAt" | "updatedAt">;
 

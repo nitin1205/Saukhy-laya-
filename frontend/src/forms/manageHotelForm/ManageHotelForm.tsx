@@ -5,8 +5,10 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestSection from "./GuestSection";
 import ImagesSection from "./ImagesSection";
+import { useEffect } from "react";
+import type { HotelType } from "../../../../backend/src/shared/types";
 
-export type HotelType =
+export type TypeOfHotel =
   | "Budget"
   | "Boutique"
   | "Luxury"
@@ -38,48 +40,80 @@ export interface HotelFormData {
   city: string;
   country: string;
   description: string;
-  type: HotelType;
+  type: TypeOfHotel;
   pricePerNight: number;
   starRating: number;
   facilities: HotelFacilities[];
   imageFiles: FileList;
   adultCount: number;
   childCount: number;
+  imageUrls: string[];
 }
 
 type Props = {
+  hotel?: HotelType;
   onSave: (hotelFormData: FormData) => void;
   isLoading: boolean;
 };
 
-const ManageHotelForm = ({ onSave, isLoading }: Props) => {
+const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
   const formMethods = useForm<HotelFormData>();
 
-  const { handleSubmit } = formMethods;
+  const { handleSubmit, reset } = formMethods;
 
-  const onSubmit = handleSubmit((data: HotelFormData) => {
+  useEffect(() => {
+    if (hotel) {
+      reset({
+        name: hotel.name,
+        city: hotel.city,
+        country: hotel.country,
+        description: hotel.description,
+        type: hotel.type as TypeOfHotel,
+        pricePerNight: hotel.pricePerNight,
+        starRating: hotel.starRating,
+        facilities: hotel.facilities as HotelFacilities[],
+        imageUrls: hotel.imageUrls, // or handle as needed
+        adultCount: hotel.adultCount,
+        childCount: hotel.childCount,
+      });
+    } else {
+      reset();
+    }
+  }, [hotel, reset]);
+
+  const onSubmit = handleSubmit((hotelFormData: HotelFormData) => {
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("city", data.city);
-    formData.append("country", data.country);
-    formData.append("description", data.description);
-    formData.append("type", data.type);
-    formData.append("pricePerNight", data.pricePerNight.toString());
-    formData.append("starRating", data.starRating.toString());
-    formData.append("adultCount", data.adultCount.toString());
-    formData.append("childCount", data.childCount.toString());
+    if (hotel) {
+      formData.append("hotelId", hotel._id);
+    }
+    formData.append("name", hotelFormData.name);
+    formData.append("city", hotelFormData.city);
+    formData.append("country", hotelFormData.country);
+    formData.append("description", hotelFormData.description);
+    formData.append("type", hotelFormData.type);
+    formData.append("pricePerNight", hotelFormData.pricePerNight.toString());
+    formData.append("starRating", hotelFormData.starRating.toString());
+    formData.append("adultCount", hotelFormData.adultCount.toString());
+    formData.append("childCount", hotelFormData.childCount.toString());
 
-    data.facilities.forEach((facility, index) => {
+    hotelFormData.facilities.forEach((facility, index) => {
       formData.append(`facilities[${index}]`, facility);
     });
 
-    // Append each image file
-    Array.from(data.imageFiles).forEach((imageFile) => {
+    if (hotelFormData.imageUrls) {
+      hotelFormData.imageUrls.forEach((url, index) => {
+        formData.append(`imageUrls[${index}]`, url);
+      });
+    }
+
+    Array.from(hotelFormData.imageFiles).forEach((imageFile) => {
       formData.append("imageFiles", imageFile);
     });
 
-    // Here you would typically send the formData to your API
-    console.log("Form submitted with data:", Object.fromEntries(formData));
+    console.log(
+      "Form submitted with hotelFormData:",
+      Object.fromEntries(formData)
+    );
     onSave(formData);
   });
 

@@ -1,3 +1,4 @@
+import type { HotelType } from "../../backend/src/shared/types";
 import type { RegisterFormData } from "./pages/Register";
 import type { SignInFormData } from "./pages/SignIn";
 
@@ -74,7 +75,7 @@ export const addHotel = async (hotelFormData: FormData) => {
   return response.json();
 };
 
-export const fetchMyHotels = async () => {
+export const fetchMyHotels = async (): Promise<HotelType[]> => {
   const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
     method: "GET",
     credentials: "include",
@@ -82,6 +83,35 @@ export const fetchMyHotels = async () => {
 
   if (!response.ok) {
     throw new Error("Failed to fetch hotels");
+  }
+
+  return response.json();
+};
+
+export const fetchMyHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelId}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching hotel");
+  }
+
+  return response.json();
+};
+
+export const updateHotelById = async (hotelFormData: FormData) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/my-hotels/${hotelFormData.get("hotelId")}`,
+    {
+      method: "PUT",
+      credentials: "include",
+      body: hotelFormData,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update Hotel");
   }
 
   return response.json();

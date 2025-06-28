@@ -12,7 +12,8 @@ export async function registerUserService(input: RegisterUserDBInput) {
     if (user) {
       throw new Error("User already exists");
     }
-    user = await UserModel.create(input);
+    user = new UserModel(input);
+    user.save();
     return omit(user.toJSON(), "password");
   } catch (error) {
     throw new Error(error);

@@ -1,6 +1,6 @@
 import z from "zod/v4";
 
-export const createHotelSchema = z.object({
+export const CreateHotelSchema = z.object({
   name: z.string({
     error: (iss) =>
       iss.input === undefined
@@ -46,18 +46,20 @@ export const createHotelSchema = z.object({
           : "Invalid Hotel type.",
     }
   ),
-  adultCount: z.number({
+  adultCount: z.coerce.number({
     error: (iss) =>
       iss.input === undefined
         ? "AdultCount is required."
         : "Invalid AdultCount.",
   }),
-  childCount: z.number({
-    error: (iss) =>
-      iss.input === undefined
-        ? "ChildCount is required."
-        : "Invalid ChildCount.",
-  }),
+  childCount: z.coerce
+    .number({
+      error: (iss) =>
+        iss.input === undefined
+          ? "ChildCount is required."
+          : "Invalid ChildCount.",
+    })
+    .min(0, "Child count cannot be negative"),
   facilities: z.array(
     z.enum([
       "Free WiFi",
@@ -76,13 +78,13 @@ export const createHotelSchema = z.object({
           : "Invalid Facilities.",
     }
   ),
-  pricePerNight: z.number({
+  pricePerNight: z.coerce.number({
     error: (iss) =>
       iss.input === undefined
         ? "PricePerNight is required."
         : "Invalid PricePerNight.",
   }),
-  starRating: z
+  starRating: z.coerce
     .number({
       error: (iss) =>
         iss.input === undefined
@@ -91,6 +93,26 @@ export const createHotelSchema = z.object({
     })
     .min(1, "StarRating must be at least 1")
     .max(5, "StarRating must be at most 5"),
+  imageFiles: z.any(),
 });
 
-export type CreateHotelInput = z.infer<typeof createHotelSchema>;
+export type CreateHotelInput = z.infer<typeof CreateHotelSchema>;
+
+export const HotelIdParams = z.object({
+  hotelId: z.coerce.string({
+    error: (iss) =>
+      iss.input === undefined ? "Hotel ID is required." : "Invalid Hotel ID.",
+  }),
+});
+
+export type HotelIdParamsType = z.infer<typeof HotelIdParams>;
+
+export const UpdateHotelSchema = CreateHotelSchema.extend({
+  hotelId: z.string({
+    error: (iss) =>
+      iss.input === undefined ? "HotelId is required." : "Invalid HotelId.",
+  }),
+  imageUrls: z.array(z.string()).optional().default([]),
+});
+
+export type UpdateHotelInput = z.infer<typeof UpdateHotelSchema>;

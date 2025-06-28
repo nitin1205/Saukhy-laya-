@@ -5,7 +5,7 @@ import { BiHotel, BiMoney, BiStar } from "react-icons/bi";
 
 import * as apiclient from "../api-client";
 import { useAppContext } from "../contexts/appContext/useAppContext";
-import type { HotelType } from "../../../backend/src/models/hotelModel";
+import type { HotelType } from "../../../backend/src/shared/types";
 
 const MyHotels = () => {
   const { showToast } = useAppContext();
@@ -40,7 +40,7 @@ const MyHotels = () => {
         </Link>
       </span>
       <div className="grid grid-cols-1 gap-8">
-        {hotelData?.hotels?.map((hotel: HotelType, index: number) => (
+        {hotelData?.map((hotel: HotelType, index: number) => (
           <div
             className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5"
             key={index}

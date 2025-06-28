@@ -3,9 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 import * as appClient from "../api-client";
 import ManageHotelForm from "../forms/manageHotelForm/ManageHotelForm";
 import { useAppContext } from "../contexts/appContext/useAppContext";
+import { useNavigate } from "react-router-dom";
 
 const AddHotel = () => {
   const { showToast } = useAppContext();
+
+  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: appClient.addHotel,
@@ -14,6 +17,7 @@ const AddHotel = () => {
         message: "Hotel added successfully",
         type: "SUCCESS",
       });
+      navigate("/my-hotels");
     },
     onError: () => {
       showToast({
