@@ -1,11 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import * as apiClient from "../api-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import ManageHotelForm from "../forms/manageHotelForm/ManageHotelForm";
+import { useAppContext } from "../contexts/appContext/useAppContext";
 
 const EditHotel = () => {
   const { hotelId } = useParams();
+
+  const { showToast } = useAppContext();
+
+  const navigate = useNavigate();
 
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
@@ -15,27 +20,14 @@ const EditHotel = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: apiClient.updateHotelById,
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: () => {
+      showToast({ message: "Hotel Updated Successfull!", type: "SUCCESS" });
+      navigate("/my-hotels");
+    },
+    onError: () => {
+      showToast({ message: "Error Updating Hotel", type: "ERROR" });
+    },
   });
-
-  // console.log("response", data);
-
-  // const hotel: HotelFormData = {
-  //   name: data?.name as string,
-  //   city: data?.city as string,
-  //   country: data?.country as string,
-  //   description: data?.description as string,
-  //   type: data?.type as TypeOfHotel,
-  //   pricePerNight: data?.pricePerNight as number,
-  //   starRating: data?.starRating as number,
-  //   facilities: data?.facilities as HotelFacilities[],
-  //   imageFiles: data?.imageUrls as unknown as FileList,
-  //   adultCount: data?.adultCount as number,
-  //   childCount: data?.childCount as number,
-  // };
-
-  // console.log("hotel", hotel);
 
   const handleSave = (hotelFormData: FormData) => {
     mutate(hotelFormData);

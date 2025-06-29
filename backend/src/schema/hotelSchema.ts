@@ -113,6 +113,7 @@ export const UpdateHotelSchema = CreateHotelSchema.extend({
       iss.input === undefined ? "HotelId is required." : "Invalid HotelId.",
   }),
   imageUrls: z.array(z.string()).optional().default([]),
+  imageFiles: z.any().optional(),
 });
 
 export type UpdateHotelInput = z.infer<typeof UpdateHotelSchema>;

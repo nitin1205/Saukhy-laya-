@@ -13,6 +13,7 @@ import {
   createHotelService,
   getMyHotelByIdService,
   getMyHotelsService,
+  updateMyHotelByIdService,
 } from "../service/my-hotelService";
 
 export const createHotelHandler: RequestHandler = async (
@@ -86,14 +87,25 @@ export const updateHotelHandler: RequestHandler = async (
   res: Response
 ) => {
   try {
-    const updatedHotel = req.body;
-    // console.log(typeof updatedHotel);
-    console.log(req.body);
-    // const imageUrls = await uploadImageToCloudinary(
-    //   req.files as Express.Multer.File[]
-    // );
-    // const hotel = await updateHotelService(updatedHotel, req.params?.hotelId, req.userId);
-    res.status(200).json({ ok: "ok" });
+    let imageUrls: string[] = [];
+    if (req.files && req.files.length) {
+      imageUrls = await uploadImageToCloudinary(
+        req.files as Express.Multer.File[]
+      );
+    }
+
+    const updatedHotel: HotelDocument = {
+      ...req.body,
+      imageUrls: [...(req.body.imageUrls || []), ...(imageUrls || [])],
+      userId: req?.userId as unknown as ObjectId,
+    };
+
+    const hotel = await updateMyHotelByIdService(
+      req.params.hotelId,
+      updatedHotel,
+      req.userId
+    );
+    res.status(201).json(hotel);
   } catch (error) {
     logger.error("Error updating hotel:", error);
     res.status(500).json({

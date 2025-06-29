@@ -55,7 +55,8 @@ const ImagesSection = () => {
           {...register("imageFiles", {
             validate: (imageFiles) => {
               const filesArrayLength =
-                imageFiles.length + (existingImageUrls?.length || 0);
+                (imageFiles ? imageFiles.length : 0) +
+                (existingImageUrls?.length || 0);
               if (!filesArrayLength) {
                 return "At least one image should be added";
               } else if (filesArrayLength > 6) {

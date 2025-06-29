@@ -6,8 +6,6 @@ import logger from "../utils/logger";
 export const validateRequestBody =
   (schema: ZodObject) => (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log("vlidate");
-      console.log(req.body);
       if (!req.body) {
         res.status(400).json({ error: "Request body is required" });
         return;
@@ -35,6 +33,10 @@ export const validateRequestBody =
 export const validateRequestParams =
   (schema: ZodObject) => (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (!req.params) {
+        res.status(400).json({ error: "Request Params is required" });
+        return;
+      }
       schema.parse(req.params);
       next();
       return;
@@ -58,6 +60,10 @@ export const validateRequestParams =
 export const validateRequestQuery =
   (schema: ZodObject) => (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (!req.query) {
+        res.status(400).json({ error: "Request Query is required" });
+        return;
+      }
       schema.parse(req.query);
       next();
       return;
