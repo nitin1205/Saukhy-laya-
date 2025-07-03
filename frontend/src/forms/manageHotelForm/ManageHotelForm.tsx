@@ -72,7 +72,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
         pricePerNight: hotel.pricePerNight,
         starRating: hotel.starRating,
         facilities: hotel.facilities as HotelFacilities[],
-        imageUrls: hotel.imageUrls, // or handle as needed
+        imageUrls: hotel.imageUrls,
         adultCount: hotel.adultCount,
         childCount: hotel.childCount,
       });

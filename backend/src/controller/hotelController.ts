@@ -1,31 +1,17 @@
 import { Request, RequestHandler, Response } from "express";
 
 import logger from "../utils/logger";
-import { findHotelsWithLimitAndPageSize } from "../service/hotelService";
+import { findHotelsWithQueryLimitAndPageSize } from "../service/hotelService";
 import { HotelSearchResponse } from "../shared/types";
+import { SearchHotelInput } from "../schema/hotelSchema";
 
 export const searchHotelController: RequestHandler = async (
-  req: Request,
+  req: Request<{}, HotelSearchResponse, {}, SearchHotelInput>,
   res: Response
-) => {
+): Promise<void> => {
   try {
-    const pageSize = 5;
-    const pageNumber = parseInt(
-      req.query.page ? req.query.page.toString() : "1"
-    );
+    const response = await findHotelsWithQueryLimitAndPageSize(req.query);
 
-    const skip = (pageNumber - 1) * pageSize;
-
-    const hotels = await findHotelsWithLimitAndPageSize(skip, pageSize);
-
-    const response: HotelSearchResponse = {
-      data: hotels.hotels,
-      pagination: {
-        total: hotels.totalHotels,
-        page: pageNumber,
-        pages: Math.ceil(hotels.totalHotels / pageSize),
-      },
-    };
     res.json(response);
     return;
   } catch (error) {

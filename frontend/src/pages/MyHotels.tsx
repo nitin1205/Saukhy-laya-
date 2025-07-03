@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsBuilding, BsMap } from "react-icons/bs";
 import { BiHotel, BiMoney, BiStar } from "react-icons/bi";
 
-import * as apiclient from "../api-client";
+import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/appContext/useAppContext";
 import type { HotelType } from "../../../backend/src/shared/types";
 
@@ -11,7 +11,7 @@ const MyHotels = () => {
   const { showToast } = useAppContext();
   const { data: hotelData, error } = useQuery({
     queryKey: ["fetchHotels"],
-    queryFn: apiclient.fetchMyHotels,
+    queryFn: apiClient.fetchMyHotels,
   });
 
   if (error) {

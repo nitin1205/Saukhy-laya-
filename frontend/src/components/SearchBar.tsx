@@ -45,7 +45,7 @@ const SearchBar = () => {
         </div>
         <input
           placeholder="Where are you going?"
-          className="text-xl w-full focus:outline-none"
+          className="w-full focus:outline-none"
           value={destination}
           onChange={(event) => setDestination(event.target.value)}
         />
@@ -69,7 +69,7 @@ const SearchBar = () => {
           <input
             className="w-full p-1 focus:outline-none font-bold"
             type="number"
-            min={1}
+            min={0}
             max={20}
             value={childCount}
             onChange={(event) => setChildCount(parseInt(event.target.value))}

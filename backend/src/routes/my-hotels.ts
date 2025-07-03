@@ -14,7 +14,7 @@ import {
 } from "../middlewares/validateResources";
 import {
   CreateHotelSchema,
-  HotelIdParams,
+  HotelIdParamsSchema,
   UpdateHotelSchema,
 } from "../schema/hotelSchema";
 
@@ -39,7 +39,7 @@ router.get("/", verifyUser, getMyHotelsController);
 router.get(
   "/:hotelId",
   verifyUser,
-  validateRequestParams(HotelIdParams),
+  validateRequestParams(HotelIdParamsSchema),
   getMyHotelByIdController
 );
 
@@ -47,7 +47,7 @@ router.put(
   "/:hotelId",
   verifyUser,
   upload.array("imageFiles", 6),
-  validateRequestParams(HotelIdParams),
+  validateRequestParams(HotelIdParamsSchema),
   validateRequestBody(UpdateHotelSchema),
   updateHotelHandler
 );

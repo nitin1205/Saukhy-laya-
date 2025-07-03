@@ -1,4 +1,5 @@
 import z from "zod/v4";
+import { ar } from "zod/v4/locales";
 
 export const CreateHotelSchema = z.object({
   name: z.string({
@@ -98,14 +99,14 @@ export const CreateHotelSchema = z.object({
 
 export type CreateHotelInput = z.infer<typeof CreateHotelSchema>;
 
-export const HotelIdParams = z.object({
+export const HotelIdParamsSchema = z.object({
   hotelId: z.coerce.string({
     error: (iss) =>
       iss.input === undefined ? "Hotel ID is required." : "Invalid Hotel ID.",
   }),
 });
 
-export type HotelIdParamsType = z.infer<typeof HotelIdParams>;
+export type HotelIdParamsType = z.infer<typeof HotelIdParamsSchema>;
 
 export const UpdateHotelSchema = CreateHotelSchema.extend({
   hotelId: z.string({
@@ -117,3 +118,51 @@ export const UpdateHotelSchema = CreateHotelSchema.extend({
 });
 
 export type UpdateHotelInput = z.infer<typeof UpdateHotelSchema>;
+
+const parseNumeric = (value: string | undefined): number | undefined => {
+  if (value === undefined || value === "") return undefined;
+  const parsed = Number(value);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
+const arrayOrSingle = <T extends z.ZodType>(schema: T) =>
+  z
+    .union([schema, z.array(schema)])
+    .transform((val) => (Array.isArray(val) ? val : [val]))
+    .transform((val) => val.filter((item) => item !== undefined));
+
+export const SearchHotelQuerySchema = z
+  .object({
+    destination: z.string().optional(),
+    adultCount: z
+      .string()
+      .optional()
+      .transform(parseNumeric)
+      .refine((val) => val === undefined || Number.isInteger(val), {
+        message: "Must be an integer",
+      }),
+    checkIn: z.string().optional(),
+    checkOut: z.string().optional(),
+    childCount: z.string().default("0").transform(parseNumeric),
+    facilities: arrayOrSingle(z.string()).optional(),
+    types: arrayOrSingle(z.string()).optional(),
+    stars: arrayOrSingle(z.string().transform(parseNumeric)).optional(),
+    maxPrice: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (!val) return undefined;
+        const parsed = parseFloat(val);
+        return isNaN(parsed) ? undefined : parsed;
+      })
+      .refine((val) => val === undefined || val >= 0, {
+        message: "Price must be positive",
+      }),
+    page: z.string().default("1").transform(parseNumeric),
+    sortOption: z
+      .enum(["starRating", "pricePerNightAsc", "pricePerNightDesc"])
+      .optional(),
+  })
+  .strict();
+
+export type SearchHotelInput = z.infer<typeof SearchHotelQuerySchema>;
