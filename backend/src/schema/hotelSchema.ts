@@ -133,7 +133,10 @@ const arrayOrSingle = <T extends z.ZodType>(schema: T) =>
 
 export const SearchHotelQuerySchema = z
   .object({
-    destination: z.string().optional(),
+    destination: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
     adultCount: z
       .string()
       .optional()
@@ -141,8 +144,20 @@ export const SearchHotelQuerySchema = z
       .refine((val) => val === undefined || Number.isInteger(val), {
         message: "Must be an integer",
       }),
-    checkIn: z.string().optional(),
-    checkOut: z.string().optional(),
+    checkIn: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (!val) return undefined;
+        return new Date(val);
+      }),
+    checkOut: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (!val) return undefined;
+        return new Date(val);
+      }),
     childCount: z.string().default("0").transform(parseNumeric),
     facilities: arrayOrSingle(z.string()).optional(),
     types: arrayOrSingle(z.string()).optional(),
@@ -160,8 +175,14 @@ export const SearchHotelQuerySchema = z
       }),
     page: z.string().default("1").transform(parseNumeric),
     sortOption: z
-      .enum(["starRating", "pricePerNightAsc", "pricePerNightDesc"])
-      .optional(),
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val))
+      .pipe(
+        z
+          .enum(["starRating", "pricePerNightAsc", "pricePerNightDesc"])
+          .optional()
+      ),
   })
   .strict();
 

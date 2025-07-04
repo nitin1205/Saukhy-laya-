@@ -23,6 +23,7 @@ export async function findHotelsWithQueryLimitAndPageSize(
         break;
       case "pricePerNightDesc":
         sortOptions = { pricePerNight: -1 };
+        break;
     }
 
     const pageSize = 5;
