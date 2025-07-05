@@ -8,7 +8,7 @@ const PriceFilter = ({ selectedPrice, onChange }: Props) => {
     <div>
       <h4 className="text-md font-semibold mb-2">Max Price</h4>
       <select
-        className="border-2 border-gray-5400 p-2"
+        className="border border-gray-400 rounded-md w-full p-2"
         value={selectedPrice}
         onChange={(event) =>
           onChange(
@@ -19,7 +19,9 @@ const PriceFilter = ({ selectedPrice, onChange }: Props) => {
         <option value="">Select Max Price</option>
         {[1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000].map(
           (price) => (
-            <option value={price}>{price}</option>
+            <option key={price} value={price}>
+              {price}
+            </option>
           )
         )}
       </select>

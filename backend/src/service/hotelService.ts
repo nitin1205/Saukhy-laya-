@@ -5,7 +5,16 @@ import {
 } from "../schema/hotelSchema";
 import { HotelSearchResponse } from "../shared/types";
 
-export async function findHotelsWithQueryLimitAndPageSize(
+export async function getHotelByIdService(hotelId: string) {
+  try {
+    const hotel = await HotelModel.findById(hotelId);
+    return hotel;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function findHotelsWithQueryLimitAndPageSizeService(
   queryInput: SearchHotelInput
 ): Promise<HotelSearchResponse> {
   try {
